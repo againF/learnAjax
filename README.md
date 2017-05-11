@@ -1,4 +1,4 @@
-#learnAjax
+# learnAjax
 
 ## 一个完整的HTTP请求有以下步骤：
 
