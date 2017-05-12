@@ -1,7 +1,7 @@
 <?php
 	//设置页面内容是html编码格式是utf-8
-header("Content-Type:text/plain;charset = utf-8");
-//header("Content-Type:application/json;charset = utf-8");
+//header("Content-Type:text/plain;charset = utf-8");
+header("Content-Type:application/json;charset = utf-8");
 //header("Content-Type:text/xml;charset = utf-8");
 //header("Content-Type:text/html;charset = utf-8");
 //header("Content-Type:application/javascript;charset = utf-8");
@@ -30,7 +30,9 @@ $staff = array
 		//isset检测变量是否设置；empty判读值是否为空
 		//超全局变量$_GET和$_POST用于收集表单数据
 		if(!isset($_GET["number"]) || empty($_GET["number"])) {
-			echo "参数错误";
+			echo '{"success":false,
+				   "msg":"参数错误"
+				  }';
 			return;
 		}
 		//函数之外声明的变量拥有Global作用域，只能在函数以外进行访问
@@ -38,12 +40,19 @@ $staff = array
 		global $staff;
 		//获取number参数
 		$number = $_GET["number"];
-		$result = "没有找到员工";
+		$result = '{"success":false,
+		            "msg":"没有找到员工"
+		           }';
 
 		//遍历$staff多维数组，查找key值为number的员工是否存在，如果存在，则修改返回结果
 		foreach ($staff as $value) {
 			if($value["number"] == $number) {
-				$result = "找到员工：员工编号：" . $value["number"] . ",员工姓名：" . $value["name"] . "，员工性别：" . $value["sex"] . ",员工职位：" . $value["job"];
+				$result = '{"success":true,
+							"msg":"找到员工：员工编号：' . $value["number"] .
+							 ',员工姓名：' . $value["name"] . 
+							 ',员工性别：' . $value["sex"] .
+							 ',员工职位：' . $value["job"].'"
+							}';
 				break;
 			}
 		}
@@ -57,12 +66,18 @@ $staff = array
 			|| !isset($_POST["number"]) || empty($_POST["number"])
 			|| !isset($_POST["sex"]) || empty($_POST["sex"])
 			|| !isset($_POST["job"]) || empty($_POST["job"])) {
-			echo "参数错误，员工信息填写不全";
+			echo '{"success":false,
+				   "msg":"参数错误，员工信息填写不全"
+				  }';
 		return;
 		}
 		//TODO:获取POST表单数据并保存到数据库
 
 		//提示保存成功
-		echo "员工：" . $_POST["name"] . "信息保存成功！";
+		echo '{
+			"success":true,
+			"msg":"员工：' . $_POST["name"] . '信息保存成功！"
+		}';
+		
 	}
 ?>
